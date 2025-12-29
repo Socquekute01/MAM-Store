@@ -1,61 +1,49 @@
-// src/components/chat/ChatBubble.tsx
-import { useChat } from "@/hooks/useChat";
+import { useChat } from '@/hooks/useChat';
+import { useEffect, useRef } from 'react';
+import { ChatLoading } from './ChatLoading';
 
 export default function ChatBubble() {
-  const {
-    open,
-    setOpen,
-    messages,
-    text,
-    setText,
-    send
-  } = useChat();
+  const { open, setOpen, messages, text, setText, send, loadingHistory, adminTyping } = useChat();
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [messages]);
 
   return (
     <>
-      <div
-        onClick={() => setOpen(o => !o)}
-        className="chat-bubble"
-        style={{
-          position: "fixed",
-          bottom: 20,
-          right: 20,
-          background: "#007bff",
-          color: "#fff",
-          borderRadius: "50%",
-          width: 60,
-          height: 60,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer"
-        }}
-      >
+      <div onClick={() => setOpen((o) => !o)} className="chat-bubble">
         💬
       </div>
 
       {open && (
-        <div className="chat-window" style={{
-          position: "fixed",
-          bottom: 90,
-          right: 20,
-          width: 300,
-          background: "#fff",
-          border: "1px solid #ccc",
-          padding: 10
-        }}>
-          <div className="chat-messages" style={{ height: "200px", overflowY: "auto" }}>
-            {messages.map((m, i) => (
-              <div key={i}>
-                <b>{m.sender}:</b> {m.content}
-              </div>
-            ))}
+        <div className="chat-window">
+          <div className="chat-messages">
+            {loadingHistory ? (
+              <ChatLoading />
+            ) : (
+              <>
+                {messages.map((m, i) => (
+                  <div key={i} className={`chat-msg ${m.sender}`}>
+                    <b>{m.sender}:</b> {m.content}
+                  </div>
+                ))}
+                <div ref={messagesEndRef} />
+                {adminTyping && (
+                  <div className="chat-msg bot">
+                    <i>Admin đang trả lời...</i>
+                  </div>
+                )}
+              </>
+            )}
           </div>
 
           <input
             value={text}
-            onChange={e => setText(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && send()}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && send()}
             placeholder="Nhập tin nhắn..."
           />
         </div>

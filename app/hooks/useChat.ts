@@ -1,37 +1,94 @@
 // src/hooks/useChat.ts
-import { useEffect, useState } from "react";
-import { chatApi } from "@/services/chat.api";
+import { useEffect, useRef, useState } from 'react';
+import { chatApi } from '@/services/chat.api';
+
+const BOT_WELCOME = {
+  sender: 'bot',
+  content: 'Chào bạn, MAM có thể giúp gì cho bạn?',
+};
+
+const BOT_WAITING = {
+  sender: 'bot',
+  content: 'MAM sẽ nhanh chóng phản hồi câu hỏi của bạn, bạn chờ trong giây lát nhé!',
+};
 
 export function useChat() {
   const [open, setOpen] = useState(false);
   const [conversationId, setConversationId] = useState<number | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
+  const hasSentFirst = useRef(false);
+  const [loadingHistory, setLoadingHistory] = useState(false);
+  const [adminTyping, setAdminTyping] = useState(false);
 
-  // mở chat → start
+  // useChat.ts
   useEffect(() => {
-    if (open && !conversationId) {
-      chatApi.start().then(res => {
-        setConversationId(res.conversation_id);
-      });
+    if (!open) return;
+
+    setMessages((prev) => {
+      if (prev.length === 0) {
+        return [BOT_WELCOME];
+      }
+      return prev;
+    });
+
+    const saved = localStorage.getItem('conversation_id');
+    if (saved) {
+      setConversationId(Number(saved));
+      return;
     }
+
+    chatApi.start().then((res) => {
+      setConversationId(res.conversation_id);
+      localStorage.setItem('conversation_id', res.conversation_id);
+    });
   }, [open]);
 
-  // polling
   useEffect(() => {
     if (!conversationId) return;
 
-    const i = setInterval(() => {
-      chatApi.messages(conversationId).then(setMessages);
-    }, 3000);
+    let cancelled = false;
+    setLoadingHistory(true);
 
-    return () => clearInterval(i);
+    chatApi
+      .messages(conversationId)
+      .then((data) => {
+        if (cancelled) return;
+
+        setMessages((prev) => {
+          const bot = prev.filter((m) => m.sender === 'bot');
+          return [...bot, ...data];
+        });
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingHistory(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [conversationId]);
 
   const send = async () => {
     if (!text.trim() || !conversationId) return;
+
+    setMessages((prev) => [...prev, { sender: 'guest', content: text }]);
+
+    if (!hasSentFirst.current) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: 'bot',
+          content: 'MAM sẽ nhanh chóng phản hồi câu hỏi của bạn, bạn chờ trong giây lát nhé!',
+        },
+      ]);
+      hasSentFirst.current = true;
+    }
+
+    setAdminTyping(true); // 👈 bắt đầu chờ admin
+    setText('');
+
     await chatApi.send(conversationId, text);
-    setText("");
   };
 
   return {
@@ -40,6 +97,8 @@ export function useChat() {
     messages,
     text,
     setText,
-    send
+    send,
+    loadingHistory,
+    adminTyping,
   };
 }
