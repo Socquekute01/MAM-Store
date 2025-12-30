@@ -50,23 +50,23 @@ export function useChat() {
     let cancelled = false;
     setLoadingHistory(true);
 
-    chatApi
-      .messages(conversationId)
-      .then((data) => {
-        if (cancelled) return;
+    const timer = setInterval(() => {
+      chatApi
+        .messages(conversationId)
+        .then((data) => {
+          if (cancelled) return;
 
-        setMessages((prev) => {
-          const bot = prev.filter((m) => m.sender === 'bot');
-          return [...bot, ...data];
+          setMessages((prev) => {
+            const bot = prev.filter((m) => m.sender === 'bot');
+            return [...bot, ...data];
+          });
+        })
+        .finally(() => {
+          if (!cancelled) setLoadingHistory(false);
         });
-      })
-      .finally(() => {
-        if (!cancelled) setLoadingHistory(false);
-      });
+    }, 3000);
 
-    return () => {
-      cancelled = true;
-    };
+    return () => clearInterval(timer);
   }, [conversationId]);
 
   const send = async () => {
@@ -87,8 +87,9 @@ export function useChat() {
 
     setAdminTyping(true); // 👈 bắt đầu chờ admin
     setText('');
-
-    await chatApi.send(conversationId, text);
+    if (text != BOT_WAITING.content && text != BOT_WELCOME.content) {
+      await chatApi.send(conversationId, text);
+    }
   };
 
   return {

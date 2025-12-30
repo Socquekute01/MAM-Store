@@ -8,15 +8,16 @@ export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   server: {
     proxy: {
-      "/api": {
-        target: "http://localhost",
-        changeOrigin: true
-      }
-    }
+      '/api': {
+        target: 'http://localhost',
+        changeOrigin: true,
+      },
+    },
+    allowedHosts: true,
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "app")
-    }
-  }
+      '@': path.resolve(__dirname, 'app'),
+    },
+  },
 });

@@ -1,25 +1,23 @@
 // src/services/chat.api.ts
-const BASE = "/api/chat";
+const API_BASE = '/api/chat';
 
 export const chatApi = {
   start() {
-    return fetch(`${BASE}/start.php`).then(r => r.json());
+    return fetch(`${API_BASE}/create-conversation.php`).then((r) => r.json());
   },
 
   send(conversationId: number, message: string) {
-    return fetch(`${BASE}/send.php`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    return fetch(`${API_BASE}/send-message.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         conversation_id: conversationId,
-        message
-      })
-    });
+        message,
+      }),
+    }).then((r) => r.json());
   },
 
   messages(conversationId: number) {
-    return fetch(
-      `${BASE}/messages.php?conversation_id=${conversationId}`
-    ).then(r => r.json());
-  }
+    return fetch(`${API_BASE}/get-messages.php?conversation_id=${conversationId}`).then((r) => r.json());
+  },
 };
