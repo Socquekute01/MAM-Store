@@ -1,11 +1,20 @@
-import ChatBubble from '@/components/chat/ChatBubble';
+import About from '@/components/landing/About';
+import Contact from '@/components/landing/Contact';
+import Hero from '@/components/landing/Hero';
+import Portfolio from '@/components/landing/Portfolio';
+import Pricing from '@/components/landing/Pricing';
+import Testimonials from '@/components/landing/Testimonials';
 import '@/css/chat.css';
 
 export default function Index() {
   return (
     <>
-      <h1>Trang chủ</h1>
-      <ChatBubble />
+      <Hero />
+      <About />
+      <Portfolio />
+      <Pricing />
+      <Testimonials />
+      <Contact />
     </>
   );
 }

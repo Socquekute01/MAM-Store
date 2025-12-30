@@ -56,7 +56,7 @@ export default function ChatBubble() {
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && send()}
             placeholder="Nhập tin nhắn..."
-            className="w-full rounded-chat border border-chat-border px-3 py-2 text-sm outline-none focus:border-chat-primary"
+            className="w-full rounded-chat border border-chat-border px-3 py-2 text-sm outline-none focus:border-chat-primary text-black"
           />
         </div>
       </div>
