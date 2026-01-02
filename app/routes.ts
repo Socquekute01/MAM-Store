@@ -1,10 +1,15 @@
-import { type RouteConfig, index, route, layout, prefix } from "@react-router/dev/routes";
+import { type RouteConfig, index, route, layout, prefix } from '@react-router/dev/routes';
 
 export default [
   // Homepage
   // index('routes/index.tsx'),
 
-  layout('layout/RootLayout.tsx', [index('routes/index.tsx')]),
+  layout('layout/RootLayout.tsx', [
+    index('routes/index.tsx'),
+    route('design', 'routes/design/index.tsx'),
+    route('construction', 'routes/construction.tsx'),
+    route('design/:designId', 'routes/design/$designId.tsx'),
+  ]),
 
   // Single routes
   //   route("about", "routes/about.tsx"),
@@ -28,5 +33,5 @@ export default [
   //   ]),
 
   // Catch-all 404
-    route("*", "routes/404.tsx"),
+  route('*', 'routes/404.tsx'),
 ] satisfies RouteConfig;

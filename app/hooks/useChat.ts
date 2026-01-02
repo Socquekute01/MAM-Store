@@ -1,6 +1,6 @@
 // src/hooks/useChat.ts
 import { useEffect, useRef, useState } from 'react';
-import { chatApi } from '@/services/chat.api';
+import { userAPI } from '@/services/user.api';
 
 const BOT_WELCOME = {
   sender: 'bot',
@@ -38,7 +38,7 @@ export function useChat() {
       return;
     }
 
-    chatApi.start().then((res) => {
+    userAPI.start().then((res) => {
       setConversationId(res.conversation_id);
       localStorage.setItem('conversation_id', res.conversation_id);
     });
@@ -51,7 +51,7 @@ export function useChat() {
     setLoadingHistory(true);
 
     const timer = setInterval(() => {
-      chatApi
+      userAPI
         .messages(conversationId)
         .then((data) => {
           if (cancelled) return;
@@ -88,7 +88,7 @@ export function useChat() {
     setAdminTyping(true); // 👈 bắt đầu chờ admin
     setText('');
     if (text != BOT_WAITING.content && text != BOT_WELCOME.content) {
-      await chatApi.send(conversationId, text);
+      await userAPI.send(conversationId, text);
     }
   };
 

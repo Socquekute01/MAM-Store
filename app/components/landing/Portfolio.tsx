@@ -1,23 +1,19 @@
+import { userAPI } from '@/services/user.api';
 import { useEffect, useRef, useState } from 'react';
-import gallery1 from '@/assets/gallery-1.jpg';
-import gallery2 from '@/assets/gallery-2.jpg';
-import gallery3 from '@/assets/gallery-3.jpg';
-import gallery4 from '@/assets/gallery-4.jpg';
-import gallery5 from '@/assets/gallery-5.jpg';
-import gallery6 from '@/assets/gallery-6.jpg';
+import { Link } from 'react-router';
 
-const portfolioItems = [
-  { id: 1, image: gallery1, title: 'Intimate Wedding', category: 'Wedding' },
-  { id: 2, image: gallery2, title: 'Sunset Romance', category: 'Engagement' },
-  { id: 3, image: gallery3, title: 'Wedding Details', category: 'Details' },
-  { id: 4, image: gallery4, title: 'Golden Hour', category: 'Wedding' },
-  { id: 5, image: gallery5, title: 'Bridal Portrait', category: 'Portrait' },
-  { id: 6, image: gallery6, title: 'First Dance', category: 'Reception' },
-];
+type RelatedPost = {
+  id: number;
+  name: string;
+  thumbnail: string;
+  category_name: string;
+};
 
 const Portfolio = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [portfolioItems, setPortfolioItems] = useState<RelatedPost[]>([]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,8 +32,22 @@ const Portfolio = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const allProducts = await userAPI.getAllProducts();
+        setPortfolioItems(allProducts.slice(0, 6));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
   return (
-    <section ref={sectionRef} id="portfolio" className="py-24 md:py-32 bg-secondary/30">
+    <section ref={sectionRef} id="portfolio" className="py-12 md:py-16 bg-background">
       <div className="container mx-auto px-6 md:px-12">
         {/* Header */}
         <div
@@ -52,8 +62,9 @@ const Portfolio = () => {
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {portfolioItems.map((item, index) => (
-            <div
-              key={item.id}
+            <Link
+              key={item?.id}
+              to={`/design/${item?.id}`}
               className={`gallery-item group transition-all duration-700 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
               }`}
@@ -61,19 +72,19 @@ const Portfolio = () => {
             >
               <div className="relative aspect-[3/4] overflow-hidden">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={item?.thumbnail}
+                  alt={item?.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-all duration-500" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
                   <span className="font-sans text-xs tracking-[0.2em] uppercase text-background/80 mb-2">
-                    {item.category}
+                    {item?.category_name}
                   </span>
-                  <span className="font-serif text-xl text-background">{item.title}</span>
+                  <span className="font-serif text-xl text-background text-center">{item?.name}</span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -83,7 +94,7 @@ const Portfolio = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <a href="#" className="elegant-button inline-block">
+          <a href="/design" className="elegant-button inline-block">
             View All Works
           </a>
         </div>

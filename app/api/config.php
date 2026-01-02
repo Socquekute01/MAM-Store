@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
 $dbname = "mam_store";
-$user = "chat_user";
-$pass = "password_here";
+$user = "root";
+$pass = "";
 
 try {
   $db = new PDO(

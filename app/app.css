@@ -87,13 +87,18 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  --color-background: hsl(var(--background));
+  --color-background: #f7f5f2;
+  --color-layout: hsl(var(--background));
+  /* --color-background: hsl(var(--background)); */
   --color-foreground: hsl(var(--foreground));
   
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
   
-  --color-secondary: hsl(var(--secondary));
+  --color-secondary: #f5efe6;
+  --color-price-card: hsl(var(--secondary));
+  /* --color-secondary: hsl(var(--secondary)); */
+
   --color-secondary-foreground: hsl(var(--secondary-foreground));
   
   --color-destructive: hsl(var(--destructive));

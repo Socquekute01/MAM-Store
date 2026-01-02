@@ -42,8 +42,8 @@ export default function App() {
     <>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
-        <Outlet />
+          <Sonner />
+          <Outlet />
       </TooltipProvider>
     </>
   );

@@ -19,7 +19,7 @@ export default function ChatBubble() {
       {/* Bubble button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-5 right-5 flex h-14 w-14 items-center justify-center rounded-full bg-chat-primary text-white shadow-lg transition hover:scale-105"
+        className="fixed bottom-5 right-5 flex h-14 w-14 items-center justify-center rounded-full bg-foreground/60 text-white shadow-lg transition hover:scale-105"
       >
         💬
       </button>
