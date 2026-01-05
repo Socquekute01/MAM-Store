@@ -55,7 +55,7 @@ const Portfolio = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <p className="section-subtitle mb-4">Our Works</p>
+          <p className="section-subtitle mb-4">Công việc của chúng tôi</p>
           <h2 className="section-title">Portfolio</h2>
         </div>
 
@@ -95,7 +95,7 @@ const Portfolio = () => {
           }`}
         >
           <a href="/design" className="elegant-button inline-block">
-            View All Works
+            Xem tất cả
           </a>
         </div>
       </div>

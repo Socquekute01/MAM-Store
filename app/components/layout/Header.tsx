@@ -15,12 +15,12 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { label: 'About Us', href: '/#about' },
+    { label: 'Về chúng tôi', href: '/#about' },
     { label: 'Portfolio', href: '/#portfolio' },
-    { label: 'Design', href: '/design' },
-    { label: 'Construction', href: '/construction' },
-    { label: 'Service', href: '/#pricing' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Thiết kế', href: '/design' },
+    { label: 'Thi công', href: '/construction' },
+    { label: 'Dịch vụ', href: '/#pricing' },
+    { label: 'Liên hệ', href: '/#contact' },
   ];
 
   const renderNavLink = (link: (typeof navLinks)[0], onClick?: () => void) => {

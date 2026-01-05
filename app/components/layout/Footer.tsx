@@ -91,7 +91,7 @@ const Footer = () => {
           <div className="md:col-span-5 space-y-6">
             <div className="space-y-4">
               <div className="flex gap-3 items-start group">
-                <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5 group-hover:text-foreground transition-colors" />
+                <MapPin className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5 group-hover:text-foreground transition-colors" />
                 <div className="text-sm">
                   <p className="font-medium text-foreground mb-1">Trụ sở chính</p>
                   <p className="text-muted-foreground leading-relaxed">
@@ -101,7 +101,7 @@ const Footer = () => {
               </div>
 
               <div className="flex gap-3 items-start group">
-                <MapPin className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5 group-hover:text-foreground transition-colors" />
+                <MapPin className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5 group-hover:text-foreground transition-colors" />
                 <div className="text-sm">
                   <p className="font-medium text-foreground mb-1">Xưởng sản xuất</p>
                   <p className="text-muted-foreground leading-relaxed">KCN Thạch Thất - Huyện Thạch Thất - Hà Nội</p>

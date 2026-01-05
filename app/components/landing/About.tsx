@@ -52,7 +52,7 @@ const About = () => {
                 isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
               }`}
             >
-              <p className="section-subtitle mb-4">About Us</p>
+              <p className="section-subtitle mb-4">Về chúng tôi</p>
               <h2 className="section-title mb-8">
                 Hello, I'm <span className="italic">M.A.M</span>
               </h2>
@@ -68,7 +68,7 @@ const About = () => {
                 <p>M.A.M Việt Nam – “Độc bản tương lai, kiến tạo đẳng cấp.”</p>
               </div>
               <a href="#contact" className="elegant-button inline-block mt-8">
-                Get in Touch
+                Liên hệ
               </a>
             </div>
           </div>

@@ -64,7 +64,7 @@ const About = () => {
                 <p>Đội ngũ kỹ thuật với nhiều năm kinh ngiệm, luôn tạo ra những sản phẩm hoàn hảo bậc nhất</p>
               </div>
               <a href="#contact" className="elegant-button inline-block mt-8">
-                Get in Touch
+                Liên hệ
               </a>
             </div>
           </div>

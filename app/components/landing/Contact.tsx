@@ -69,13 +69,14 @@ const Contact = ({ isFormEdit = false }) => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <p className="section-subtitle mb-4">Get in Touch</p>
+          <p className="section-subtitle mb-4">Liên hệ</p>
           <h2 className="section-title mb-8">
-            Let's Work <span className="italic">Together</span>
+            Hãy cùng nhau xây dựng <span className="italic">ngôi nhà trong mơ</span>
           </h2>
           <p className="font-sans text-muted-foreground mb-12 leading-relaxed">
-            We're really happy and thank you so much for coming here and considering us to document your house! We'd
-            love to hear about your story and how we can help you.
+            Chúng tôi chân thành cảm ơn bạn đã ghé thăm và tin tưởng lựa chọn chúng tôi trong hành trình xây dựng tổ ấm
+            của mình. Chúng tôi rất mong được lắng nghe câu chuyện của bạn và đồng hành cùng bạn để biến những ý tưởng
+            ấy thành hiện thực.
           </p>
 
           {/* Contact Form */}
@@ -89,7 +90,7 @@ const Contact = ({ isFormEdit = false }) => {
                   onChange={handleChange}
                   type="text"
                   className="w-full bg-transparent border-b border-foreground/30 py-3 font-sans text-sm focus:outline-none focus:border-foreground transition-colors"
-                  placeholder="Enter your name"
+                  placeholder="Nhập tên của bạn"
                 />
               </div>
               {/* <div>
@@ -111,7 +112,7 @@ const Contact = ({ isFormEdit = false }) => {
                   onChange={handleChange}
                   type="text"
                   className="w-full bg-transparent border-b border-foreground/30 py-3 font-sans text-sm focus:outline-none focus:border-foreground transition-colors"
-                  placeholder="Enter your phone"
+                  placeholder="Nhập số điện thoại"
                 />
               </div>
               <div>
@@ -122,7 +123,7 @@ const Contact = ({ isFormEdit = false }) => {
                   onChange={handleChange}
                   type="text"
                   className="w-full bg-transparent border-b border-foreground/30 py-3 font-sans text-sm focus:outline-none focus:border-foreground transition-colors"
-                  placeholder="Enter your area"
+                  placeholder="Nhập diện tích căn nhà (m²)"
                 />
               </div>
             </div>
@@ -134,7 +135,7 @@ const Contact = ({ isFormEdit = false }) => {
                 onChange={handleChange}
                 rows={isFormEdit ? 1 : 4}
                 className="w-full bg-transparent border-b border-foreground/30 py-3 font-sans text-sm focus:outline-none focus:border-foreground transition-colors resize-none"
-                placeholder="Tell us about your story..."
+                placeholder="Hãy nói cho chúng tôi biết về dự án của bạn..."
               />
             </div>
             <div className="text-center pt-4">

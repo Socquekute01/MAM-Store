@@ -1,6 +1,7 @@
 import ChatBubble from '@/components/chat/ChatBubble';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import ZaloBubble from '@/components/zalo';
 import { Outlet } from 'react-router';
 
 function RootLayout() {
@@ -9,6 +10,7 @@ function RootLayout() {
       <Header />
       <main>
         <Outlet />
+        <ZaloBubble />
         <ChatBubble />
       </main>
       <Footer />

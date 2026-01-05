@@ -75,8 +75,8 @@ const Pricing = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <p className="section-subtitle mb-4">Investment</p>
-          <h2 className="section-title">Service</h2>
+          <p className="section-subtitle mb-4">Đầu tư</p>
+          <h2 className="section-title">Dịch vụ</h2>
         </div>
 
         {/* Pricing Cards */}
@@ -118,7 +118,7 @@ const Pricing = () => {
                     : 'border-foreground/30 hover:bg-foreground hover:text-background hover:border-foreground'
                 }`}
               >
-                Inquire Now
+                Liên hệ ngay
               </a>
             </div>
           ))}
