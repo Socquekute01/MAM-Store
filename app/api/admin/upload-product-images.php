@@ -1,7 +1,10 @@
 <?php
 require "../config.php";
 
-header('Content-Type: application/json');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  http_response_code(200);
+  exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -9,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   exit;
 }
 
-$productId = intval($_POST['product_id'] ?? 0);
+$productId = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
 if ($productId <= 0) {
   http_response_code(400);
   echo json_encode(['success' => false, 'error' => 'Product ID is required']);

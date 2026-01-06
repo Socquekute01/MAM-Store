@@ -1,5 +1,5 @@
-const ADMIN_BASE = '/api/admin';
-const URL_BASE = '/api/user';
+const ADMIN_BASE = 'https://khoancatbetongtienxuan.com/api/admin';
+const URL_BASE = 'https://khoancatbetongtienxuan.com/api/user';
 
 export const adminApi = {
   /* =======================

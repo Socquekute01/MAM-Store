@@ -9,11 +9,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost',
+        target: 'https://khoancatbetongtienxuan.com/',
         changeOrigin: true,
       },
       '/uploads': {
-        target: 'http://localhost',
+        target: 'https://khoancatbetongtienxuan.com/',
         changeOrigin: true,
       },
     },

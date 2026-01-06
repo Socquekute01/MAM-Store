@@ -1,9 +1,18 @@
 <?php
 require "../config.php";
 
-header('Content-Type: application/json');
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+  http_response_code(200);
+  exit;
+}
 
-$productId = intval($_GET['product_id'] ?? 0);
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+  http_response_code(405);
+  echo json_encode(['error' => 'Method not allowed']);
+  exit;
+}
+
+$productId = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
 
 if ($productId <= 0) {
   http_response_code(400);
