@@ -1,53 +1,109 @@
 <?php
+// FORCE TẮT MỌI COMPRESSION
+header('Content-Encoding: none');
+header_remove('Content-Encoding');
+
+if (function_exists('apache_setenv')) {
+    apache_setenv('no-gzip', '1');
+    apache_setenv('dont-vary', '1');
+}
+
+ini_set('zlib.output_compression', '0');
+ini_set('zlib.output_compression_level', '0');
+
+// Tắt output buffering
+if (ob_get_level()) {
+    ob_end_clean();
+}
+
 require "../config.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  http_response_code(200);
-  exit;
-}
+// ... rest of code ...
+
+/* =========================
+ * CORS & PRE-FLIGHT
+ * ========================= */
+// if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+//   http_response_code(200);
+//   exit;
+// }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
-  echo json_encode(['success' => false, 'error' => 'Method not allowed']);
-  exit;
-}
-
-$productId = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
-if ($productId <= 0) {
-  http_response_code(400);
-  echo json_encode(['success' => false, 'error' => 'Product ID is required']);
+  echo json_encode([
+    'success' => false,
+    'error' => 'Method not allowed'
+  ]);
   exit;
 }
 
 /* =========================
- * CHECK PRODUCT
+ * VALIDATE INPUT
+ * ========================= */
+$productId = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+
+if ($productId <= 0) {
+  http_response_code(400);
+  echo json_encode([
+    'success' => false,
+    'error' => 'Product ID is required'
+  ]);
+  exit;
+}
+
+/* =========================
+ * CHECK PRODUCT EXIST
  * ========================= */
 $stmt = $db->prepare("SELECT id FROM products WHERE id = ?");
 $stmt->execute([$productId]);
+
 if (!$stmt->fetch()) {
   http_response_code(404);
-  echo json_encode(['success' => false, 'error' => 'Product not found']);
-  exit;
-}
-
-if (empty($_FILES['images'])) {
-  http_response_code(400);
-  echo json_encode(['success' => false, 'error' => 'No images uploaded']);
+  echo json_encode([
+    'success' => false,
+    'error' => 'Product not found'
+  ]);
   exit;
 }
 
 /* =========================
- * PATH SETUP (QUAN TRỌNG)
+ * CHECK FILE UPLOAD
  * ========================= */
-$baseUploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/products/';
-$productDir = $baseUploadDir . $productId . '/';
-
-if (!is_dir($productDir)) {
-  mkdir($productDir, 0755, true);
+if (empty($_FILES['images'])) {
+  http_response_code(400);
+  echo json_encode([
+    'success' => false,
+    'error' => 'No images uploaded'
+  ]);
+  exit;
 }
 
-$uploadedImages = [];
-$files = $_FILES['images'];
+/* =========================
+ * PATH SETUP (AN TOÀN)
+ * ========================= */
+$uploadRoot = realpath(__DIR__ . '/../../uploads/products');
+
+if ($uploadRoot === false) {
+  http_response_code(500);
+  echo json_encode([
+    'success' => false,
+    'error' => 'Upload root directory not found'
+  ]);
+  exit;
+}
+
+$productDir = $uploadRoot . '/' . $productId . '/';
+
+if (!is_dir($productDir)) {
+  if (!mkdir($productDir, 0755, true)) {
+    http_response_code(500);
+    echo json_encode([
+      'success' => false,
+      'error' => 'Cannot create product upload directory'
+    ]);
+    exit;
+  }
+}
 
 /* =========================
  * SORT ORDER
@@ -58,10 +114,10 @@ $stmt = $db->prepare("
   WHERE product_id = ?
 ");
 $stmt->execute([$productId]);
-$maxOrder = (int)$stmt->fetch()['max_order'];
+$maxOrder = (int) $stmt->fetch()['max_order'];
 
 /* =========================
- * CHECK THUMBNAIL EXIST
+ * THUMBNAIL CHECK
  * ========================= */
 $stmt = $db->prepare("
   SELECT COUNT(*) FROM product_images
@@ -71,54 +127,92 @@ $stmt->execute([$productId]);
 $hasThumbnail = $stmt->fetchColumn() > 0;
 
 /* =========================
- * MULTIPLE FILES
+ * UPLOAD PROCESS
  * ========================= */
+$allowedExt = ['jpg', 'jpeg', 'png', 'webp'];
+$maxSize    = 5 * 1024 * 1024; // 5MB
+
+$files = $_FILES['images'];
 $fileCount = is_array($files['name']) ? count($files['name']) : 1;
 
-for ($i = 0; $i < $fileCount; $i++) {
-  $fileName  = is_array($files['name']) ? $files['name'][$i] : $files['name'];
-  $fileTmp   = is_array($files['tmp_name']) ? $files['tmp_name'][$i] : $files['tmp_name'];
-  $fileError = is_array($files['error']) ? $files['error'][$i] : $files['error'];
+$uploadedImages = [];
 
-  if ($fileError !== UPLOAD_ERR_OK) continue;
+for ($i = 0; $i < $fileCount; $i++) {
+
+  $name  = is_array($files['name'])     ? $files['name'][$i]     : $files['name'];
+  $tmp   = is_array($files['tmp_name']) ? $files['tmp_name'][$i] : $files['tmp_name'];
+  $error = is_array($files['error'])    ? $files['error'][$i]    : $files['error'];
+  $size  = is_array($files['size'])     ? $files['size'][$i]     : $files['size'];
+
+  if ($error !== UPLOAD_ERR_OK) continue;
+  if ($size > $maxSize) continue;
 
   /* Validate image */
-  $imageInfo = getimagesize($fileTmp);
-  if (!$imageInfo) continue;
+  if (!getimagesize($tmp)) continue;
 
-  /* Extension whitelist */
-  $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-  if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) continue;
+  /* Extension check */
+  $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+  if (!in_array($ext, $allowedExt)) continue;
 
-  $newFileName = uniqid('img_') . '.' . $ext;
-  $destination = $productDir . $newFileName;
+  $newName = uniqid('img_', true) . '.' . $ext;
+  $dest    = $productDir . $newName;
 
-  /* 🔴 DI CHUYỂN FILE */
-  if (!move_uploaded_file($fileTmp, $destination)) continue;
+  if (!move_uploaded_file($tmp, $dest)) continue;
 
-  $imageUrl  = "/uploads/products/$productId/$newFileName";
+  $imageUrl = "/uploads/products/$productId/$newName";
   $sortOrder = ++$maxOrder;
 
-  /* Thumbnail logic */
   $isThumbnail = (!$hasThumbnail && $i === 0) ? 1 : 0;
   if ($isThumbnail) $hasThumbnail = true;
 
   $stmt = $db->prepare("
     INSERT INTO product_images
-    (product_id, image_url, is_thumbnail, sort_order)
+      (product_id, image_url, is_thumbnail, sort_order)
     VALUES (?, ?, ?, ?)
   ");
-  $stmt->execute([$productId, $imageUrl, $isThumbnail, $sortOrder]);
+  $stmt->execute([
+    $productId,
+    $imageUrl,
+    $isThumbnail,
+    $sortOrder
+  ]);
 
   $uploadedImages[] = [
-    'id' => $db->lastInsertId(),
-    'image_url' => $imageUrl,
-    'is_thumbnail' => $isThumbnail,
-    'sort_order' => $sortOrder,
+    'id'           => $db->lastInsertId(),
+    'image_url'    => $imageUrl,
+    'is_thumbnail' => (bool) $isThumbnail,
+    'sort_order'   => $sortOrder
   ];
 }
 
+
+if (empty($uploadedImages)) {
+  http_response_code(400);
+  echo json_encode([
+    'success' => false,
+    'error' => 'No images were uploaded'
+  ]);
+  exit;
+}
+
+// XÓA MỌI CODE ob_flush, ob_end_clean
+
+// Chỉ cần:
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
+
 echo json_encode([
   'success' => true,
-  'data' => $uploadedImages,
+  'data' => $uploadedImages
 ]);
+
+// Log thời gian gửi
+file_put_contents(
+  __DIR__ . '/response_sent.log',
+  date('Y-m-d H:i:s') . " - Response sent: " . json_encode($uploadedImages) . "\n",
+  FILE_APPEND
+);
+
+exit;

@@ -347,7 +347,7 @@ function Products({ productView, setProductView }: ProductType) {
                       </div>
 
                       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-3 gap-2">
-                        {image.is_thumbnail === 0 && (
+                        {!image.is_thumbnail && (
                           <button
                             onClick={() => handleSetThumbnail(image.id)}
                             className="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium shadow-md transition-all"
