@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$name = trim($data['name'] ?? '');
-$phone = trim($data['phone'] ?? '');
-$area = trim($data['area'] ?? '');
-$message = trim($data['message'] ?? '');
+$name = trim(isset($data['name']) ? $data['name'] : '');
+$phone = trim(isset($data['phone']) ? $data['phone'] : '');
+$area = trim(isset($data['area']) ? $data['area'] : '');
+$message = trim(isset($data['message']) ? $data['message'] : '');
 
 if ($name === '' || $phone === '' || $message === '') {
   http_response_code(400);

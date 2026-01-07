@@ -40,7 +40,7 @@ function SidebarAdmin({
           <span>Tin nhắn</span>
           {conversations.filter((c) => c.unread_count && c.unread_count > 0).length > 0 && (
             <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-semibold">
-              {conversations.reduce((sum, c) => sum + (c.unread_count || 0), 0)}
+              {parseInt(conversations.reduce((sum, c) => sum + (c.unread_count || 0), 0))}
             </span>
           )}
         </button>

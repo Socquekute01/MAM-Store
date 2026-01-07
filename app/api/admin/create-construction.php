@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-$image = trim($data['image'] ?? '');
-$completedDate = trim($data['completedDate'] ?? '');
-$title = trim($data['title'] ?? '');
-$videoUrl = trim($data['videoUrl'] ?? '');
+$image = isset($data['image']) ? trim($data['image']) : '';
+$completedDate = isset($data['completedDate']) ? trim($data['completedDate']) : '';
+$title = isset($data['title']) ? trim($data['title']) : '';
+$videoUrl = isset($data['videoUrl']) ? trim($data['videoUrl']) : '';
 
 if ($image === '' || $completedDate === '' || $title === '') {
   http_response_code(400);

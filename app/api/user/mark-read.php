@@ -3,8 +3,8 @@ require "../config.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$cid  = (int)($data["conversation_id"] ?? 0);
-$role = $data["role"] ?? "";
+$cid  = (int)(isset($data["conversation_id"]) ? $data["conversation_id"] : 0);
+$role = isset($data["role"]) ? $data["role"] : "";
 
 if (!$cid || !in_array($role, ["admin", "guest"])) {
   echo json_encode(["success" => false]);

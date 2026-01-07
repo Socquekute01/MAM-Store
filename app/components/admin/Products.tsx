@@ -1,6 +1,6 @@
 import { adminApi } from '@/services/admin.api';
 import { userAPI } from '@/services/user.api';
-import { ArrowLeft, Check, Folder, GripVertical, Image, Package, Plus, Trash2, Upload } from 'lucide-react';
+import { ArrowLeft, Check, Edit2, Folder, GripVertical, Image, Package, Plus, Trash2, Upload } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import type { Category, Product, ProductDetail, ProductImage, ProductType } from './admin.types';
 
@@ -18,6 +18,13 @@ function Products({ productView, setProductView }: ProductType) {
   const [newProductDesc, setNewProductDesc] = useState('');
   const [draggedImage, setDraggedImage] = useState<ProductImage | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  //edit mode
+  const [editingCategory, setEditingCategory] = useState<number | null>(null);
+  const [editCategoryName, setEditCategoryName] = useState('');
+  const [editingProduct, setEditingProduct] = useState<number | null>(null);
+  const [editProductName, setEditProductName] = useState('');
+  const [editProductDesc, setEditProductDesc] = useState('');
 
   useEffect(() => {
     loadCategories();
@@ -90,7 +97,7 @@ function Products({ productView, setProductView }: ProductType) {
             ...prev,
             images: prev.images.map((img) => ({
               ...img,
-              is_thumbnail: img.id === imageId ? 1 : 0,
+              is_thumbnail: img.id == imageId ? 1 : 0,
             })),
           }
         : null,
@@ -119,11 +126,11 @@ function Products({ productView, setProductView }: ProductType) {
   };
 
   const handleDrop = async (targetImage: ProductImage) => {
-    if (!draggedImage || !productDetail || draggedImage.id === targetImage.id) return;
+    if (!draggedImage || !productDetail || draggedImage.id == targetImage.id) return;
 
     const images = [...productDetail.images];
-    const draggedIdx = images.findIndex((img) => img.id === draggedImage.id);
-    const targetIdx = images.findIndex((img) => img.id === targetImage.id);
+    const draggedIdx = images.findIndex((img) => img.id == draggedImage.id);
+    const targetIdx = images.findIndex((img) => img.id == targetImage.id);
 
     images.splice(draggedIdx, 1);
     images.splice(targetIdx, 0, draggedImage);
@@ -138,6 +145,44 @@ function Products({ productView, setProductView }: ProductType) {
     await adminApi.reorderImages(imageOrders);
     setDraggedImage(null);
   };
+  // Category Edit & Delete
+  const handleUpdateCategory = async (categoryId: number) => {
+    if (!editCategoryName.trim()) return;
+    await adminApi.updateCategory(categoryId, editCategoryName);
+    setCategories(categories.map((cat) => (cat.id === categoryId ? { ...cat, name: editCategoryName } : cat)));
+    setEditingCategory(null);
+    setEditCategoryName('');
+  };
+
+  const handleDeleteCategory = async (categoryId: number) => {
+    if (!confirm('Xóa danh mục này? Nếu còn thiết kế trong danh mục sẽ không thể xóa.')) return;
+    const res = await adminApi.deleteCategory(categoryId);
+    if (res.success) {
+      setCategories(categories.filter((cat) => cat.id !== categoryId));
+    }
+    else {
+      alert(res.error || 'Xóa danh mục thất bại');
+    }
+  };
+
+  // Product Edit & Delete
+  const handleUpdateProduct = async (productId: number) => {
+    if (!editProductName.trim()) return;
+    await adminApi.updateProduct(productId, editProductName, editProductDesc);
+    setProducts(
+      products.map((p) => (p.id === productId ? { ...p, name: editProductName, description: editProductDesc } : p)),
+    );
+    setEditingProduct(null);
+    setEditProductName('');
+    setEditProductDesc('');
+  };
+
+  const handleDeleteProduct = async (productId: number) => {
+    if (!confirm('Xóa sản phẩm này?')) return;
+    await adminApi.deleteProduct(productId);
+    setProducts(products.filter((p) => p.id !== productId));
+  };
+
   return (
     <>
       <div className="flex-1 flex flex-col bg-white overflow-hidden">
@@ -171,24 +216,80 @@ function Products({ productView, setProductView }: ProductType) {
                   {categories.map((cat) => (
                     <div
                       key={cat.id}
-                      onClick={() => {
-                        setSelectedCategory(cat.id);
-                        setProductView('products');
-                      }}
-                      className="bg-white border border-slate-200 rounded-xl p-6 cursor-pointer hover:shadow-xl hover:border-blue-300 transition-all hover:-translate-y-1"
+                      className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl hover:border-blue-300 transition-all"
                     >
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-14 h-14 bg-linear-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-md">
-                          <Folder className="text-white" size={28} />
+                      {editingCategory === cat.id ? (
+                        <div className="space-y-3">
+                          <input
+                            value={editCategoryName}
+                            onChange={(e) => setEditCategoryName(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleUpdateCategory(cat.id)}
+                            className="w-full px-4 py-2 border border-slate-200 rounded-xl outline-none focus:border-blue-400"
+                            autoFocus
+                          />
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleUpdateCategory(cat.id)}
+                              className="flex-1 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-sm font-medium"
+                            >
+                              Lưu
+                            </button>
+                            <button
+                              onClick={() => {
+                                setEditingCategory(null);
+                                setEditCategoryName('');
+                              }}
+                              className="flex-1 px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-sm font-medium"
+                            >
+                              Hủy
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-slate-900 text-lg">{cat.name}</h3>
-                          <p className="text-sm text-slate-500 flex items-center gap-1.5 mt-0.5">
-                            <Package size={14} />
-                            {cat.product_count || 0} sản phẩm
-                          </p>
-                        </div>
-                      </div>
+                      ) : (
+                        <>
+                          <div
+                            onClick={() => {
+                              setSelectedCategory(cat.id);
+                              setProductView('products');
+                            }}
+                            className="flex items-center gap-4 mb-4 cursor-pointer"
+                          >
+                            <div className="w-14 h-14 bg-linear-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-md">
+                              <Folder className="text-white" size={28} />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-slate-900 text-lg">{cat.name}</h3>
+                              <p className="text-sm text-slate-500 flex items-center gap-1.5 mt-0.5">
+                                <Package size={14} />
+                                {cat.product_count || 0} sản phẩm
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2 pt-3 border-t border-slate-100">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingCategory(cat.id);
+                                setEditCategoryName(cat.name);
+                              }}
+                              className="flex-1 px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-medium flex items-center justify-center gap-2"
+                            >
+                              <Edit2 size={16} />
+                              Sửa
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteCategory(cat.id);
+                              }}
+                              className="flex-1 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-medium flex items-center justify-center gap-2"
+                            >
+                              <Trash2 size={16} />
+                              Xóa
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -208,7 +309,7 @@ function Products({ productView, setProductView }: ProductType) {
                 </button>
                 <div>
                   <h2 className="text-2xl font-bold text-slate-900">
-                    {categories.find((c) => c.id === selectedCategory)?.name}
+                    {categories.find((c) => c.id == selectedCategory)?.name}
                   </h2>
                   <p className="text-sm text-slate-500 mt-1">{products.length} sản phẩm</p>
                 </div>
@@ -234,36 +335,107 @@ function Products({ productView, setProductView }: ProductType) {
                   {products.map((product) => (
                     <div
                       key={product.id}
-                      onClick={() => {
-                        setSelectedProduct(product.id);
-                        setProductView('detail');
-                      }}
-                      className="bg-white border border-slate-200 rounded-xl overflow-hidden cursor-pointer hover:shadow-xl hover:border-blue-300 transition-all hover:-translate-y-1"
+                      className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-xl hover:border-blue-300 transition-all"
                     >
-                      <div className="aspect-video bg-slate-100 overflow-hidden">
-                        {product.thumbnail ? (
-                          <img src={product.thumbnail} alt={product.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Image className="text-slate-300" size={48} />
+                      {editingProduct === product.id ? (
+                        <div className="p-5 space-y-3">
+                          <input
+                            value={editProductName}
+                            onChange={(e) => setEditProductName(e.target.value)}
+                            placeholder="Tên sản phẩm"
+                            className="w-full px-4 py-2 border border-slate-200 rounded-xl outline-none focus:border-blue-400"
+                            autoFocus
+                          />
+                          <textarea
+                            value={editProductDesc}
+                            onChange={(e) => setEditProductDesc(e.target.value)}
+                            placeholder="Mô tả"
+                            rows={3}
+                            className="w-full px-4 py-2 border border-slate-200 rounded-xl outline-none focus:border-blue-400 resize-none"
+                          />
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleUpdateProduct(product.id)}
+                              className="flex-1 px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-sm font-medium"
+                            >
+                              Lưu
+                            </button>
+                            <button
+                              onClick={() => {
+                                setEditingProduct(null);
+                                setEditProductName('');
+                                setEditProductDesc('');
+                              }}
+                              className="flex-1 px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-sm font-medium"
+                            >
+                              Hủy
+                            </button>
                           </div>
-                        )}
-                      </div>
-                      <div className="p-5">
-                        <h3 className="font-semibold text-slate-900 mb-2">{product.name}</h3>
-                        <p className="text-sm text-slate-500 line-clamp-2 mb-3 leading-relaxed">
-                          {product.description}
-                        </p>
-                        <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-                          <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                            <Image size={14} />
-                            <span>{product.image_count} ảnh</span>
-                          </div>
-                          <span className="text-xs text-slate-400">
-                            {new Date(product.created_at).toLocaleDateString('vi-VN')}
-                          </span>
                         </div>
-                      </div>
+                      ) : (
+                        <>
+                          <div
+                            onClick={() => {
+                              setSelectedProduct(product.id);
+                              setProductView('detail');
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <div className="aspect-video bg-slate-100 overflow-hidden">
+                              {product.thumbnail ? (
+                                <img
+                                  src={product.thumbnail}
+                                  alt={product.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <Image className="text-slate-300" size={48} />
+                                </div>
+                              )}
+                            </div>
+                            <div className="p-5">
+                              <h3 className="font-semibold text-slate-900 mb-2">{product.name}</h3>
+                              <p className="text-sm text-slate-500 line-clamp-2 mb-3 leading-relaxed">
+                                {product.description}
+                              </p>
+                              <div className="flex items-center justify-between pt-3 border-t border-slate-100">
+                                <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                                  <Image size={14} />
+                                  <span>{product.image_count} ảnh</span>
+                                </div>
+                                <span className="text-xs text-slate-400">
+                                  {new Date(product.created_at).toLocaleDateString('vi-VN')}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex gap-2 px-5 pb-5">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingProduct(product.id);
+                                setEditProductName(product.name);
+                                setEditProductDesc(product.description);
+                              }}
+                              className="flex-1 px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-medium flex items-center justify-center gap-2"
+                            >
+                              <Edit2 size={16} />
+                              Sửa
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteProduct(product.id);
+                              }}
+                              className="flex-1 px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-medium flex items-center justify-center gap-2"
+                            >
+                              <Trash2 size={16} />
+                              Xóa
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -331,7 +503,7 @@ function Products({ productView, setProductView }: ProductType) {
                       onDrop={() => handleDrop(image)}
                       className="relative group bg-white border-2 border-slate-200 rounded-xl overflow-hidden cursor-move hover:border-blue-400 transition-all hover:shadow-lg"
                     >
-                      {image.is_thumbnail === 1 && (
+                      {image.is_thumbnail == 1 && (
                         <div className="absolute top-2 left-2 z-10 bg-emerald-500 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 shadow-lg font-medium">
                           <Check size={12} />
                           <span>Thumbnail</span>
@@ -347,7 +519,7 @@ function Products({ productView, setProductView }: ProductType) {
                       </div>
 
                       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-3 gap-2">
-                        {!image.is_thumbnail && (
+                        {image.is_thumbnail == 0 && (
                           <button
                             onClick={() => handleSetThumbnail(image.id)}
                             className="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium shadow-md transition-all"

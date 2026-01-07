@@ -1,8 +1,6 @@
 <?php
 require "../config.php";
 
-header('Content-Type: application/json');
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
   echo json_encode(['error' => 'Method not allowed']);
@@ -11,11 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-$id            = intval($data['id'] ?? 0);
-$image         = trim($data['image'] ?? '');
-$completedDate = trim($data['completedDate'] ?? '');
-$title         = trim($data['title'] ?? '');
-$videoUrl      = trim($data['videoUrl'] ?? '');
+$id            = isset($data['id']) ? intval($data['id']) : 0;
+$image         = isset($data['image']) ? trim($data['image']) : '';
+$completedDate = isset($data['completedDate']) ? trim($data['completedDate']) : '';
+$title         = isset($data['title']) ? trim($data['title']) : '';
+$videoUrl      = isset($data['videoUrl']) ? trim($data['videoUrl']) : '';
 
 if ($id <= 0 || $image === '' || $completedDate === '' || $title === '') {
   http_response_code(400);

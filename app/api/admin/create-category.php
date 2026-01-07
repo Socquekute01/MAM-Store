@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
-$name = trim($input['name'] ?? '');
+$name = isset($input['name']) ? trim($input['name']) : '';
 
 if (empty($name)) {
   http_response_code(400);

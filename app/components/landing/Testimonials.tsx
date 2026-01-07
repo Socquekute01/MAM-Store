@@ -80,7 +80,7 @@ const Testimonials = () => {
               <div
                 key={testimonial.id}
                 className={`absolute inset-0 transition-all duration-700 ${
-                  index === activeIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+                  index == activeIndex ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
                 }`}
               >
                 <p className="font-serif text-xl md:text-2xl italic text-foreground/80 mb-8 leading-relaxed">
@@ -99,7 +99,7 @@ const Testimonials = () => {
                 key={index}
                 onClick={() => setActiveIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? 'bg-foreground w-6' : 'bg-foreground/30'
+                  index == activeIndex ? 'bg-foreground w-6' : 'bg-foreground/30'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />

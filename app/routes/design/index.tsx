@@ -37,7 +37,7 @@ const Design = () => {
 
   useEffect(() => {
     setFilteredGalleries(
-      activeCategory === 'All' ? galleries : galleries.filter((g) => g.category_name === activeCategory),
+      activeCategory === 'All' ? galleries : galleries.filter((g) => g.category_name == activeCategory),
     );
   }, [activeCategory, galleries]);
 
@@ -76,7 +76,7 @@ const Design = () => {
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.name)}
                 className={`px-5 py-2 text-[10px] tracking-[0.15em] uppercase font-sans border transition-all duration-300 ${
-                  activeCategory === cat.name
+                  activeCategory == cat.name
                     ? 'bg-foreground text-background border-foreground'
                     : 'bg-transparent text-foreground/70 border-foreground/30 hover:border-foreground hover:text-foreground'
                 }`}
@@ -136,7 +136,7 @@ const Design = () => {
                   {/* Text */}
                   <div className="text-center">
                     <p className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground mb-2">
-                      {'Design / ' + categories.find((c) => c.name === gallery.category_name)?.name}
+                      {'Design / ' + categories.find((c) => c.name == gallery.category_name)?.name}
                     </p>
                     <h3 className="font-serif text-xs md:text-xl font-light tracking-wide group-hover:text-primary transition-colors duration-300">
                       {gallery.name}

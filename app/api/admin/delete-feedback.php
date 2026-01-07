@@ -1,8 +1,6 @@
 <?php
 require "../config.php";
 
-header('Content-Type: application/json');
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
   echo json_encode(['error' => 'Method not allowed']);
@@ -10,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
-$feedbackId = intval($input['id'] ?? 0);
+$feedbackId = isset($input['id']) ? intval($input['id']) : 0;
 
 if ($feedbackId <= 0) {
   http_response_code(400);

@@ -1,8 +1,6 @@
 <?php
 require "../config.php";
 
-header('Content-Type: application/json');
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
   echo json_encode(['error' => 'Method not allowed']);
@@ -10,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
-$imageId = intval($input['image_id'] ?? 0);
+$imageId = isset($input['image_id']) ? intval($input['image_id']) : 0;
 
 if ($imageId <= 0) {
   http_response_code(400);

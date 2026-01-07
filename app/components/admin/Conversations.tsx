@@ -81,7 +81,7 @@ function Conversations({
 
     try {
       await adminApi.closeConversation(selectedConversation);
-      setConversations((prev) => prev.map((c) => (c.id === selectedConversation ? { ...c, status: 'closed' } : c)));
+      setConversations((prev) => prev.map((c) => (c.id == selectedConversation ? { ...c, status: 'closed' } : c)));
     } catch (error) {
       console.error('Failed to close conversation:', error);
     }
@@ -197,11 +197,11 @@ function Conversations({
                   <ArrowLeft size={20} />
                 </button>
                 <div className="w-11 h-11 rounded-xl bg-linear-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">
-                  {conversations.find((c) => c.id === selectedConversation)?.guest_id.slice(-3)}
+                  {conversations.find((c) => c.id == selectedConversation)?.guest_id.slice(-3)}
                 </div>
                 <div>
                   <h3 className="font-semibold text-slate-900">
-                    Guest {conversations.find((c) => c.id === selectedConversation)?.guest_id.slice(-6)}
+                    Guest {conversations.find((c) => c.id == selectedConversation)?.guest_id.slice(-6)}
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>

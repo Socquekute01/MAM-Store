@@ -1,7 +1,7 @@
 <?php
 require "../config.php";
 
-$cid = (int)($_GET["conversation_id"] ?? 0);
+$cid = (int)(isset($_GET["conversation_id"]) ? $_GET["conversation_id"] : 0);
 
 $stmt = $db->prepare("
   SELECT sender, content, created_at

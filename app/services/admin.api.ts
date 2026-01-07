@@ -30,12 +30,13 @@ export const adminApi = {
   },
 
   sendMessage(conversationId: number, content: string) {
-    return fetch(`${ADMIN_BASE}/send-message.php`, {
+    return fetch(`${URL_BASE}/send-message.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         conversation_id: conversationId,
         message: content,
+        sender: 'admin',
       }),
     }).then((r) => r.json());
   },
@@ -92,6 +93,56 @@ export const adminApi = {
     }).then((r) => r.json());
   },
 
+  updateCategory: async (categoryId: number, name: string) => {
+    return fetch(`${ADMIN_BASE}/update-category.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: categoryId,
+        name,
+      }),
+    }).then((r) => r.json());
+  },
+
+  deleteCategory: async (categoryId: number) => {
+    return fetch(`${ADMIN_BASE}/delete-category.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: categoryId,
+      }),
+    }).then((r) => r.json());
+  },
+
+  updateProduct: async (productId: number, name: string, description: string) => {
+    return fetch(`${ADMIN_BASE}/update-product.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: productId,
+        name,
+        description,
+      }),
+    }).then((r) => r.json());
+  },
+
+  deleteProduct: async (productId: number) => {
+    return fetch(`${ADMIN_BASE}/delete-product.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: productId,
+      }),
+    }).then((r) => r.json());
+  },
   /* =======================
    * PRODUCT
    * ======================= */
