@@ -15,7 +15,7 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Về chúng tôi', href: '/#about' },
+    { label: 'Giới thiệu', href: '/#about' },
     { label: 'Portfolio', href: '/#portfolio' },
     { label: 'Thiết kế', href: '/design' },
     { label: 'Thi công', href: '/construction' },

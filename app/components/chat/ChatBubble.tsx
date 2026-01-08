@@ -52,7 +52,7 @@ export default function ChatBubble() {
       {/* Bubble button with tooltip */}
       <div className="fixed bottom-5 right-5">
         {!open && (
-          <div className="tooltip-slide absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-white px-3 py-2 text-sm  shadow-lg">
+          <div className="tooltip-slide absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg border border-[#EFECE7] px-3 py-2 text-sm  shadow-lg">
             Bạn có tin nhắn mới
             <div className="absolute -right-1.5 top-1/2 h-0 w-0 -translate-y-1/2 border-y-[6px] border-l-[6px] border-y-transparent border-l-white"></div>
           </div>
@@ -72,7 +72,7 @@ export default function ChatBubble() {
 
       {/* Chat window */}
       <div
-        className={`fixed bottom-24 right-5 w-80 overflow-hidden rounded-chat border border-chat-border bg-white shadow-xl transition-all duration-300
+        className={`fixed z-10 bottom-24 right-5 w-80 overflow-hidden rounded-chat border border-chat-border bg-white shadow-xl transition-all duration-300
         ${open ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}
       >
         {/* Header */}

@@ -1,5 +1,5 @@
 // src/services/chat.api.ts
-const API_BASE = '/api/user';
+const API_BASE = 'https://khoancatbetongtienxuan.com/api/user';
 
 export const userAPI = {
   start() {

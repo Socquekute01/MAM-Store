@@ -2,120 +2,122 @@
 
 /* Định nghĩa CSS variables trước */
 :root {
-  /* Light mode colors */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  /* Dark theme as default */
+  --background: 25 15% 12%;
+  --foreground: 40 20% 92%;
 
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card: 25 12% 15%;
+  --card-foreground: 40 20% 92%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover: 25 15% 12%;
+  --popover-foreground: 40 20% 92%;
 
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 35 40% 70%;
+  --primary-foreground: 25 15% 12%;
 
-  --secondary: 210 40% 96.1%;
-  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary: 25 10% 20%;
+  --secondary-foreground: 40 20% 88%;
 
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
+  --muted: 25 8% 22%;
+  --muted-foreground: 35 12% 65%;
 
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  --accent: 30 20% 25%;
+  --accent-foreground: 40 20% 90%;
 
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 50.6%;
+  --destructive-foreground: 40 20% 98%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
+  --border: 25 10% 25%;
+  --input: 25 10% 25%;
+  --ring: 35 40% 70%;
 
   --radius: 0.5rem;
 
   /* Sidebar */
-  --sidebar-background: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
+  --sidebar-background: 25 12% 14%;
+  --sidebar-foreground: 40 15% 85%;
+  --sidebar-primary: 35 35% 65%;
+  --sidebar-primary-foreground: 25 15% 12%;
+  --sidebar-accent: 25 10% 22%;
+  --sidebar-accent-foreground: 40 15% 88%;
+  --sidebar-border: 25 10% 20%;
+  --sidebar-ring: 35 40% 70%;
 }
 
 @theme {
   --font-sans:
     'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
-  
-  /* Chat colors */
-  --color-chat-primary: #2563eb;
-  --color-chat-bg: #f8fafc;
-  --color-chat-border: #e2e8f0;
-  --color-chat-bot: #475569;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+
+  /* Dark mode chat colors */
+  --color-chat-primary: #d4a574;
+  --color-chat-bg: #1a1410;
+  --color-chat-border: #2d2520;
+  --color-chat-bot: #a89988;
   --radius-chat: 12px;
-  
-  /* Brand colors */
-  --color-brand-blue-50: #eff6ff;
-  --color-brand-blue-100: #dbeafe;
-  --color-brand-blue-500: #3b82f6;
-  --color-brand-blue-600: #2563eb;
-  --color-brand-blue-700: #1d4ed8;
-  
-  --color-brand-purple-500: #a855f7;
-  --color-brand-purple-600: #9333ea;
-  
-  --color-brand-pink-500: #ec4899;
-  --color-brand-pink-600: #db2777;
-  
+
+  /* Dark mode brand colors */
+  --color-brand-blue-50: #1e293b;
+  --color-brand-blue-100: #334155;
+  --color-brand-blue-500: #93c5fd;
+  --color-brand-blue-600: #60a5fa;
+  --color-brand-blue-700: #3b82f6;
+
+  --color-brand-purple-500: #c084fc;
+  --color-brand-purple-600: #a855f7;
+
+  --color-brand-pink-500: #f472b6;
+  --color-brand-pink-600: #ec4899;
+
   /* Custom spacing */
   --spacing-18: 4.5rem;
-  
+
   /* Custom border radius */
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
-  
-  /* Custom shadows */
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
-  
+
+  /* Custom shadows for dark mode */
+  --shadow-glow: 0 0 30px rgba(212, 165, 116, 0.2);
+
   /* Fonts */
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: Montserrat, system-ui, sans-serif;
-  
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+    'Noto Color Emoji';
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+
   /* Colors - reference từ :root variables */
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  --color-background: #f7f5f2;
+  --color-background: #1a1410;
   --color-layout: hsl(var(--background));
-  /* --color-background: hsl(var(--background)); */
   --color-foreground: hsl(var(--foreground));
-  
+
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-  
-  --color-secondary: #f5efe6;
-  --color-price-card: hsl(var(--secondary));
-  /* --color-secondary: hsl(var(--secondary)); */
 
+  --color-secondary: #2d2520;
+  --color-price-card: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-  
+
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-  
+
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-  
+
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-  
+
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-  
+
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
-  
+
   --color-sidebar: hsl(var(--sidebar-background));
   --color-sidebar-foreground: hsl(var(--sidebar-foreground));
   --color-sidebar-primary: hsl(var(--sidebar-primary));
@@ -124,17 +126,17 @@
   --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
   --color-sidebar-border: hsl(var(--sidebar-border));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
-  
+
   /* Border Radius */
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
-  
+
   /* Container */
   --container-center: true;
   --container-padding: 2rem;
   --container-2xl: 1400px;
-  
+
   /* Animations */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -142,248 +144,54 @@
   --animate-fade-in: fade-in 1s ease-out forwards;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 30 10% 8%;
-    --foreground: 40 15% 92%;
+/* Remove unused light mode media queries and .dark class */
 
-    --card: 30 10% 10%;
-    --card-foreground: 40 15% 92%;
-
-    --popover: 30 10% 8%;
-    --popover-foreground: 40 15% 92%;
-
-    --primary: 40 15% 90%;
-    --primary-foreground: 30 10% 10%;
-
-    --secondary: 30 8% 18%;
-    --secondary-foreground: 40 15% 90%;
-
-    --muted: 30 8% 18%;
-    --muted-foreground: 35 10% 60%;
-
-    --accent: 30 10% 22%;
-    --accent-foreground: 40 15% 92%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 30 8% 20%;
-    --input: 30 8% 20%;
-    --ring: 40 15% 85%;
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  
-  @theme {
-    --color-brand-blue-500: #60a5fa;
-  }
-}
-
-.dark {
-  --background: 30 10% 8%;
-  --foreground: 40 15% 92%;
-
-  --card: 30 10% 10%;
-  --card-foreground: 40 15% 92%;
-
-  --popover: 30 10% 8%;
-  --popover-foreground: 40 15% 92%;
-
-  --primary: 40 15% 90%;
-  --primary-foreground: 30 10% 10%;
-
-  --secondary: 30 8% 18%;
-  --secondary-foreground: 40 15% 90%;
-
-  --muted: 30 8% 18%;
-  --muted-foreground: 35 10% 60%;
-
-  --accent: 30 10% 22%;
-  --accent-foreground: 40 15% 92%;
-
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-
-  --border: 30 8% 20%;
-  --input: 30 8% 20%;
-  --ring: 40 15% 85%;
-
-  --sidebar-background: 240 5.9% 10%;
-  --sidebar-foreground: 240 4.8% 95.9%;
-  --sidebar-primary: 224.3 76.3% 48%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
-}
-
-/* Rest of your CSS... */
+/* Animations */
 @keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
-}
-
-@keyframes fade-up {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-brand-blue-500: #60a5fa;
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
   }
 }
 
-/* Custom utilities */
-@utility tab-focus {
-  outline: 2px solid theme(colors.blue.500);
-  outline-offset: 2px;
+@keyframes fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Base styles - Always dark */
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+  @apply bg-[#1a1410] text-foreground;
+  color-scheme: dark;
 }
 
-@keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
-}
-
-@keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
-}
-
-@keyframes fade-up {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 40 20% 96%;
-    --foreground: 30 10% 20%;
-
-    --card: 40 15% 94%;
-    --card-foreground: 30 10% 20%;
-
-    --popover: 40 20% 96%;
-    --popover-foreground: 30 10% 20%;
-
-    --primary: 30 15% 30%;
-    --primary-foreground: 40 20% 96%;
-
-    --secondary: 35 12% 90%;
-    --secondary-foreground: 30 10% 25%;
-
-    --muted: 35 10% 88%;
-    --muted-foreground: 30 8% 45%;
-
-    --accent: 25 20% 85%;
-    --accent-foreground: 30 15% 25%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 35 15% 85%;
-    --input: 35 15% 85%;
-    --ring: 30 15% 30%;
-
-    --radius: 0px;
-
-    /* Custom design tokens */
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans: 'Montserrat', system-ui, sans-serif;
-    
-    /* Elegant shadows */
-    --shadow-soft: 0 4px 30px rgba(30, 20, 10, 0.05);
-    --shadow-hover: 0 8px 40px rgba(30, 20, 10, 0.1);
-    
-    /* Transitions */
-    --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-.dark {
-   --background: 30 10% 8%;
-    --foreground: 40 15% 92%;
-
-    --card: 30 10% 10%;
-    --card-foreground: 40 15% 92%;
-
-    --popover: 30 10% 8%;
-    --popover-foreground: 40 15% 92%;
-
-    --primary: 40 15% 90%;
-    --primary-foreground: 30 10% 10%;
-
-    --secondary: 30 8% 18%;
-    --secondary-foreground: 40 15% 90%;
-
-    --muted: 30 8% 18%;
-    --muted-foreground: 35 10% 60%;
-
-    --accent: 30 10% 22%;
-    --accent-foreground: 40 15% 92%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 30 8% 20%;
-    --input: 30 8% 20%;
-    --ring: 40 15% 85%;
-
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-}
 @layer base {
   * {
     @apply border-border;
@@ -393,7 +201,12 @@ body {
     @apply bg-background text-foreground font-sans antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif;
   }
 }
@@ -484,9 +297,19 @@ body {
     }
   }
 
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
-  .stagger-4 { animation-delay: 0.4s; }
-  .stagger-5 { animation-delay: 0.5s; }
+  .stagger-1 {
+    animation-delay: 0.1s;
+  }
+  .stagger-2 {
+    animation-delay: 0.2s;
+  }
+  .stagger-3 {
+    animation-delay: 0.3s;
+  }
+  .stagger-4 {
+    animation-delay: 0.4s;
+  }
+  .stagger-5 {
+    animation-delay: 0.5s;
+  }
 }

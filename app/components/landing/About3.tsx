@@ -44,7 +44,7 @@ const About = () => {
   return (
     <>
       {/* block for about 1 */}
-      <section ref={sectionRef} id="about" className="py-12 md:py-32 bg-background grid gap-12 md:gap-32">
+      <section ref={sectionRef} id="about3" className="py-12 md:py-32 bg-background grid gap-12 md:gap-32">
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div
@@ -65,8 +65,8 @@ const About = () => {
 
                 {/* Text Overlay & Play Button */}
                 <div className="absolute inset-0 flex flex-col items-start justify-center px-8 md:px-16 lg:px-24 text-white container mx-auto">
-                  <h3 className="font-serif text-xl font-light max-w-2xl leading-tight">Khám phá hành trình M.A.M</h3>
-                  <p className="font-light mb-4 max-w-xl">Trao giá trị tiệm cận đến sự hoàn mỹ</p>
+                  <h3 className="font-serif text-xl font-light max-w-2xl leading-tight">Ghé showroom M.A.M</h3>
+                  <p className="font-light mb-4 max-w-xl">Cùng xem sơ lược showroom của MAM</p>
 
                   {/* Play Button */}
                   <button
@@ -92,20 +92,17 @@ const About = () => {
                 isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
               }`}
             >
-              <p className="section-subtitle mb-4">Giới thiệu</p>
+              <p className="section-subtitle mb-4">Showroom</p>
               <h2 className="section-title mb-8">
-                Hello, I'm <span className="italic">M.A.M</span>
+                Thăm quan <span className="italic">M.A.M</span>
               </h2>
               <div className="space-y-6 text-muted-foreground font-sans text-sm md:text-base leading-relaxed">
                 <p>
-                  Tự hào là đơn vị tiên phong trong thiết kế và thi công nội thất M.A.M Việt Nam đã kiến tạo hơn 3.000
-                  không gian sống đẳng cấp trên khắp cả nước.
+                  Showroom của chúng tôi là không gian trưng bày sản phẩm với thiết kế hiện đại, sang trọng và dễ trải
+                  nghiệm.
                 </p>
-                <p>
-                  Với triết lý 𝑪𝒖𝒔𝒕𝒐𝒎𝒆𝒓 𝑶𝒃𝒔𝒆𝒔𝒔𝒊𝒐𝒏" – Sự say mê khách hàng, chúng tôi không ngừng mang đến những giá trị
-                  khác biệt, chạm đến sự hài lòng và vượt trên mong đợi của khách hàng.
-                </p>
-                <p>M.A.M Việt Nam – "Độc bản tương lai, kiến tạo đẳng cấp."</p>
+                <p>Tại đây, khách hàng có thể trực tiếp tham quan, cảm nhận chất lượng sản phẩm một cách chân thực.</p>
+                <p> Đội ngũ nhân viên chuyên nghiệp luôn sẵn sàng tư vấn và hỗ trợ tận tình.</p>
               </div>
               <a href="#contact" className="elegant-button inline-block mt-8">
                 Liên hệ
@@ -140,7 +137,7 @@ const About = () => {
             {/* YouTube Embed */}
             <iframe
               className="w-full h-full rounded-lg shadow-2xl"
-              src="https://www.youtube.com/embed/1hmDpyjMhtk?autoplay=1&rel=0"
+              src="https://www.youtube.com/embed/RQJtmTa8IrQ?autoplay=1&rel=0"
               title="M.A.M Vietnam Video"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

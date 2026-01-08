@@ -61,7 +61,7 @@ const Contact = ({ isFormEdit = false }) => {
     <section
       ref={sectionRef}
       id="contact"
-      className={`py-${isFormEdit ? '8' : '24'} md:py-${isFormEdit ? '8' : '32'} bg-secondary`}
+      className={`py-${isFormEdit ? '8' : '20'} bg-secondary`}
     >
       <div className="container mx-auto px-6 md:px-12">
         <div
@@ -139,7 +139,7 @@ const Contact = ({ isFormEdit = false }) => {
               />
             </div>
             <div className="text-center pt-4">
-              <button type="submit" className="elegant-button bg-foreground text-white">
+              <button type="submit" className="elegant-button">
                 Gửi lời nhắn
               </button>
             </div>

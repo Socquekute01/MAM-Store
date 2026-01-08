@@ -1,6 +1,5 @@
 <?php
 require "../config.php";
-header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
@@ -22,26 +21,56 @@ if ($file['error'] !== UPLOAD_ERR_OK) {
   exit;
 }
 
-$imageInfo = getimagesize($file['tmp_name']);
-if (!$imageInfo) {
+/**
+ * ✅ Validate MIME type (HỖ TRỢ WEBP)
+ */
+$finfo = finfo_open(FILEINFO_MIME_TYPE);
+$mime  = finfo_file($finfo, $file['tmp_name']);
+finfo_close($finfo);
+
+$allowedMimes = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/x-webp',
+  'application/octet-stream' // fallback cho webp
+];
+
+if (!in_array($mime, $allowedMimes)) {
   http_response_code(400);
-  echo json_encode(['success' => false, 'error' => 'Invalid image']);
+  echo json_encode([
+    'success' => false,
+    'error' => 'Invalid image type',
+    'mime' => $mime // debug
+  ]);
   exit;
 }
 
+
+/**
+ * ✅ Check size
+ */
 if ($file['size'] > 5 * 1024 * 1024) {
   http_response_code(400);
   echo json_encode(['success' => false, 'error' => 'Max 5MB']);
   exit;
 }
 
+/**
+ * ✅ Extension check (phụ)
+ */
 $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
 $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
 if (!in_array($ext, $allowedExts)) {
   http_response_code(400);
-  echo json_encode(['success' => false, 'error' => 'Invalid image type']);
+  echo json_encode(['success' => false, 'error' => 'Invalid extension']);
   exit;
 }
+
+/**
+ * ✅ Upload
+ */
 $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/uploads/constructions/';
 if (!is_dir($uploadDir)) {
   mkdir($uploadDir, 0755, true);

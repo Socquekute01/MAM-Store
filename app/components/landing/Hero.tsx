@@ -27,7 +27,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-start overflow-hidden">
       {/* ===== BACKGROUND CINEMATIC SLIDER ===== */}
       <div className="absolute inset-0">
         <AnimatePresence mode="wait">
@@ -60,23 +60,23 @@ const Hero = () => {
       </div>
 
       {/* ===== CONTENT ===== */}
-      {/* <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-10 text-left px-6 container mx-auto">
         <p
           className={`section-subtitle mb-6 text-foreground/80 transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          Fine Art Wedding Photographer
+          THIẾT KẾ & THI CÔNG NỘI THẤT m.a.m
         </p>
 
         <h1
-          className={`font-serif text-4xl md:text-6xl lg:text-7xl font-light tracking-wide mb-6 text-foreground transition-all duration-1000 delay-200 ${
+          className={`font-serif text-4xl md:leading-20 md:text-6xl lg:text-7xl font-light tracking-wide mb-6 text-foreground transition-all duration-1000 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          Capturing Timeless
+          Hiện đại, Neo Classic Luxury
           <br />
-          <span className="italic">Moments of Love</span>
+          <span className="">Luxury, Luxury, Tân cổ</span>
         </h1>
 
         <p
@@ -84,18 +84,18 @@ const Hero = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          Based in Hanoi and travel around Vietnam
+          Là những gì chúng tôi mang lại cho khách hàng
         </p>
 
         <a
           href="#portfolio"
-          className={`elegant-button inline-block transition-all duration-1000 delay-500 ${
+          className={`elegant-button inline-block transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          View Portfolio
+          Xem Portfolio
         </a>
-      </div> */}
+      </div>
 
       {/* ===== SCROLL INDICATOR ===== */}
       {/* <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">

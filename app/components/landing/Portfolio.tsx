@@ -47,7 +47,7 @@ const Portfolio = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="portfolio" className="py-12 md:py-16 bg-background">
+    <section ref={sectionRef} id="portfolio" className="py-12 md:py-20 bg-secondary">
       <div className="container mx-auto px-6 md:px-12">
         {/* Header */}
         <div
@@ -78,10 +78,10 @@ const Portfolio = () => {
                 />
                 <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-all duration-500" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                  <span className="font-sans text-xs tracking-[0.2em] uppercase text-background/80 mb-2">
+                  <span className="font-sans text-xs tracking-[0.2em] uppercase mb-2">
                     {item?.category_name}
                   </span>
-                  <span className="font-serif text-xl text-background text-center">{item?.name}</span>
+                  <span className="font-serif text-xl text-center">{item?.name}</span>
                 </div>
               </div>
             </Link>

@@ -77,11 +77,11 @@ const Construction = () => {
           </p>
           <a
             href="#construction"
-            className={`elegant-button bg-foreground text-white inline-block transition-all duration-1000 delay-500 ${
+            className={`elegant-button inline-block transition-all duration-1000 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            View Construction
+            Xem thi công
           </a>
         </div>
       </section>
