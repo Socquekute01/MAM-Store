@@ -20,38 +20,41 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export const meta: MetaFunction = () => {
+  const url = 'https://mamvietnam.vn/chuyen-muc/thi-cong-thuc-te/';
+
   return [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { title: 'MAM DESIGNS' },
-    { tagName: 'link', rel: 'canonical', href: 'https://mamvietnam.vn/chuyen-muc/thi-cong-thuc-te/' },
 
-    // Favicon
+    // SEO chính
+    { title: 'Thi công nội thất thực tế | MAM Design' },
     {
-      tagName: 'link',
-      rel: 'icon',
-      type: 'image/png',
-      href: 'https://files-cdn.chatway.app/U2Dm64ntDJwYb41agz8eQSEnQCngGjC7DRWaasnn391FQXKB.jpg',
-    },
-    // Hoặc dùng .ico
-    // { tagName: "link", rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-
-    // Apple Touch Icon (cho iOS)
-    {
-      tagName: 'link',
-      rel: 'apple-touch-icon',
-      sizes: '180x180',
-      href: 'https://files-cdn.chatway.app/U2Dm64ntDJwYb41agz8eQSEnQCngGjC7DRWaasnn391FQXKB.jpg',
+      name: 'description',
+      content:
+        'Khám phá các dự án thi công nội thất thực tế do MAM Design thực hiện, đa dạng phong cách, thi công chuẩn kỹ thuật và thẩm mỹ.',
     },
 
-    // Thêm các meta tags SEO khác nếu cần
-    { name: 'description', content: 'Xem các dự án thi công nội thất thực tế của MAM DESIGN' },
-    { property: 'og:title', content: 'MAM DESIGN - Thi công thực tế' },
-    { property: 'og:description', content: 'Xem các dự án thi công nội thất thực tế của MAM DESIGN' },
-    { property: 'og:url', content: 'https://mamvietnam.vn/chuyen-muc/thi-cong-thuc-te/' },
-    { property: 'og:image', content: 'https://mamvietnam.vn/wp-content/uploads/2025/07/mam-logo.webp' },
+    // Index control
+    { name: 'robots', content: 'index, follow' },
+    { name: 'googlebot', content: 'index, follow, max-snippet:-1' },
+
+    // Canonical
+    { tagName: 'link', rel: 'canonical', href: url },
+
+    // Open Graph
+    { property: 'og:title', content: 'Thi công nội thất thực tế | MAM Design' },
+    {
+      property: 'og:description',
+      content: 'Các công trình thi công nội thất thực tế, hình ảnh thật, chất lượng chuẩn MAM Design.',
+    },
+    { property: 'og:url', content: url },
+    {
+      property: 'og:image',
+      content: 'https://mamvietnam.vn/wp-content/uploads/2025/07/mam-logo.webp',
+    },
   ];
 };
+
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
